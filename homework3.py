@@ -57,7 +57,7 @@ def info(format: str | None = Query(None), user_agent: str | None = Header(defau
 @app.get('/save/{string:path}', status_code=status.HTTP_404_NOT_FOUND)
 @app.put('/save/{string:path}', status_code=status.HTTP_200_OK)
 @app.delete('/save/{string:path}', status_code=status.HTTP_200_OK)
-def put_save(string: str, request: Request):
+def save(string: str, request: Request):
     method = request.method
     match method:
         case 'GET':
