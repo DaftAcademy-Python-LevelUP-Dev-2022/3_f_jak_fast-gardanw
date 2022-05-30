@@ -16,7 +16,7 @@ url = HerokuApp.app_url
 
 app = FastAPI()
 
-app.save_path = {}
+app.save_path = set()
 
 security = HTTPBasic()
 
@@ -62,13 +62,13 @@ def save(string: str, request: Request):
     match method:
         case 'GET':
             if string in app.save_path:
-                return RedirectResponse(url + '/info?format=json', status_code=status.HTTP_301_MOVED_PERMANENTLY,
-                                        headers={"User-Agent": app.save_path[string]})
+                url = app.url_path_for('info')
+                return RedirectResponse(url, status_code=status.HTTP_301_MOVED_PERMANENTLY,
+                                        headers={"Location": "/info"})
         case 'PUT':
-            user_agent = request.headers['user-agent']
-            app.save_path[string] = user_agent
+            app.save_path.add(string)
         case 'DELETE':
             if string in app.save_path:
-                del app.save_path[string]
+                app.save_path.remove(string)
         case _:
             return status.HTTP_400_BAD_REQUEST
