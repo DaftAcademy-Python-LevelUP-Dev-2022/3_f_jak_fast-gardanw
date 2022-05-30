@@ -4,15 +4,11 @@ from fastapi import FastAPI, HTTPException, status, Depends, Query, Header, Requ
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from main import HerokuApp
-
 
 def how_old(date):
     today = datetime.date.today()
     return today.year - date.year - ((today.month, today.day) < (date.month, date.day))
 
-
-url = HerokuApp.app_url
 
 app = FastAPI()
 
